@@ -5,6 +5,7 @@ Self-Driving Car Engineer Nanodegree Program
 Objective of this project is to use the MPC-Model Predictive Control to drive the car around the track in the simulator environment. A third degree polynomial is used as compared to first degree polynomial(line equation) in the MPC line quiz to fit the curvy roads :)
 
 Here is the demo of the car running on the simulator after implementing MPC.
+
 https://youtu.be/8BtRB6cd-Do
 
 # Implementation
