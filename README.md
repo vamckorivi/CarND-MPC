@@ -5,11 +5,60 @@ Self-Driving Car Engineer Nanodegree Program
 Objective of this project is to use the MPC-Model Predictive Control to drive the car around the track in the simulator environment. A third degree polynomial is used as compared to first degree polynomial(line equation) in the MPC line quiz to fit the curvy roads :)
 
 Here is the demo of the car running on the simulator after implementing MPC.
-
 https://youtu.be/8BtRB6cd-Do
 
 # Implementation
 
+Gloabl Kinematic Model explained in the Vehichle Models Topic is the base for the MPC. Global Kinematic Model equations used are:
+
+State:
+
+x position (px)
+y position (py)
+orientation (psi)
+velocity (v)
+cross-track error (cte)
+orientation error (epsi)
+
+Control:
+
+steering angle (delta)
+acceleration (a)
+
+Changes in state are measured by the following update equations:
+
+x = x + v * cos(psi) * dt
+y = y + v * sin(psi) * dt
+psi = psi + v/Lf * delta * dt (where Lf is the distance between the nose of the vehicle and center of gravity)
+v = v + a ∗ dt
+cte = cte + v * sin(epsi) * dt
+epsi = epsi + v/Lf * delta * dt
+
+//equations with the notations of time. t+1 is the future time prediciton using the values at time t.
+x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
+y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
+psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
+v_[t+1] = v[t] + a[t] * dt
+cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
+epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+
+These are the equations used to predict where the vehicle will be in the future given the curent state of the vehicle
+
+
+The final values of N and dt use are N=10 and dt=0.1. T = N*dt= 1 second. Velocity used is 60 mph. 
+
+When higher values of N are used like 20, vehicle failed to run through sharp turns and this is due to calcualtions taking time to compute and the turns failed. Different values of dt like 0.05 and 0.1 are used and 0.1 seems to be smoother with the combiation of N=10. 
+
+Latency is used 0.1 and the waypoints are converted to car coordiante system. As mentioned in the objective of the project, a third degree polynomial is used to fit the predicted path of the car.
+
+Equations with considering latency
+
+px = v * latency*cos(psi)
+py = v*latency*sin(psi)
+psi = v * -delta/Lf * latency
+v = v + throttle * lt
+cte = cte + v * sin(epsi) * latency
+epsi = epsi + v / Lf * delta * latency
 
 
 ---
