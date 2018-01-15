@@ -29,7 +29,7 @@ Changes in state are measured by the following update equations:
 
 x = x + v * cos(psi) * dt
 y = y + v * sin(psi) * dt
-psi = psi + v/Lf * delta * dt (where Lf is the distance between the nose of the vehicle and center of gravity)
+psi = psi + v/Lf * delta * dt 
 v = v + a ∗ dt
 cte = cte + v * sin(epsi) * dt
 epsi = epsi + v/Lf * delta * dt
@@ -53,8 +53,8 @@ Latency is used 0.1 and the waypoints are converted to car coordiante system. As
 
 Equations with considering latency
 
-px = v * latency*cos(psi)
-py = v*latency*sin(psi)
+px = v*cos(psi)*latency
+py = v*sin(psi)*latency
 psi = v * -delta/Lf * latency
 v = v + throttle * lt
 cte = cte + v * sin(epsi) * latency
